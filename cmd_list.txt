@@ -1,0 +1,18 @@
+arm-none-eabi-as -march=armv7-a -mcpu=cortex-a8 -o Entry.o ./Entry.S
+
+arm-none-eabi-objcopy -O binary Entry.o Entry.bin
+
+hexdump Entry.bin
+
+
+arm-none-eabi-gdb 대신
+sudo apt install gdb-multiarch
+gdb-multiarch
+
+
+arm-none-eabi-ld -n -T ./navilos.ld -nostdlib -o navilos.axf boot/Entry.o
+
+arm-none-eabi-objdump -D navilos.axf
+
+qemu-system-arm -M realview-pb-a8 -kernel navilos.axf -S -gdb tcp::1234,ipv4 -nographic < /dev/null &
+
