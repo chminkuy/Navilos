@@ -15,11 +15,13 @@ ARM_SRCS = $(wildcard boot/*.S)
 ARM_OBJS = $(patsubst boot/%.S, build/%.os, $(ARM_SRCS))
 
 VPATH = boot \
-		hal/$(TARGET)
+		hal/$(TARGET) \
+		lib
 
 # collect C sources by basename; VPATH lets make find them in boot/ or hal/$(TARGET)
 C_SRCS  = $(notdir $(wildcard boot/*.c))
 C_SRCS += $(notdir $(wildcard hal/$(TARGET)/*.c))
+C_SRCS += $(notdir $(wildcard lib/*.c))
 
 # objects live under build/ with the same basename
 C_OBJS  = $(patsubst %.c, build/%.o, $(C_SRCS))
@@ -27,7 +29,8 @@ C_OBJS  = $(patsubst %.c, build/%.o, $(C_SRCS))
 
 INC_DIRS = 	-I include \
 			-I hal \
-			-I hal/$(TARGET)
+			-I hal/$(TARGET) \
+			-I lib
 
 CFLAGS = -c -g -std=c11
 

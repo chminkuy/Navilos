@@ -1,4 +1,4 @@
-#ifdef HAL_HALUART_H_
+#ifndef HAL_HALUART_H_
 #define HAL_HALUART_H_
 
 void Hal_uart_init(void);
