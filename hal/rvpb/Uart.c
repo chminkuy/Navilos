@@ -17,3 +17,19 @@ void Hal_uart_putc(char c)
     while(Uart->uartfr.bits.TXFF);
     Uart->uartdr.all = (c & 0xFF);
 }
+
+uint8_t Hal_uart_getc(void)
+{
+    uint32_t data;
+    while(Uart->uartfr.bits.RXFE);
+
+    data = Uart->uartdr.all;
+    
+    if(data & 0xFFFFFF00)
+    {
+        Uart->uartrsr.all = 0xFF;
+        return 0;
+    }
+
+    return (uint8_t)(data & 0xFF);
+}
